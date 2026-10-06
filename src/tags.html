@@ -1,0 +1,22 @@
+---
+layout: layout.html
+title: Etiquetas
+description: Explora artículos por etiqueta
+permalink: /tags/index.html
+---
+
+<h1 class="text-4xl font-bold mb-8">Etiquetas</h1>
+
+{% if collections.tags.length %}
+<div class="flex flex-wrap gap-3">
+  {% for tag in collections.tags %}
+    {% set n = (collections.posts | filterByTag(tag)).length %}
+    <a href="{{ ("/tags/" + (tag | slugify) + "/") | url }}" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+      #{{ tag }}
+      <span class="text-sm ml-1">({{ n }} {{ "artículo" if n == 1 else "artículos" }})</span>
+    </a>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-gray-600 dark:text-gray-400">Aún no hay etiquetas.</p>
+{% endif %}

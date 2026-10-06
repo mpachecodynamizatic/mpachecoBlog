@@ -34,6 +34,11 @@ function toPlainText(src) {
     .replace(/\s+/g, " ")).trim();
 }
 
+function slugify(t) {
+  const r = String(t).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return r || "x-" + Buffer.from(String(t)).toString("hex").slice(0, 8);
+}
+
 module.exports = function(eleventyConfig) {
   // Watch CSS files
   eleventyConfig.addWatchTarget("src/styles/**/*.css");
@@ -100,27 +105,25 @@ module.exports = function(eleventyConfig) {
       .sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
   });
 
-  // Collections: posts by category
-  eleventyConfig.addCollection("categories", function(collection) {
-    let categories = new Set();
-    collection.getFilteredByGlob("src/posts/**/index.md").forEach(post => {
-      if (post.data.categories) {
-        post.data.categories.forEach(cat => categories.add(cat));
-      }
-    });
-    return Array.from(categories).sort();
-  });
-
-  // Collections: posts by tag
-  eleventyConfig.addCollection("tags", function(collection) {
-    let tags = new Set();
-    collection.getFilteredByGlob("src/posts/**/index.md").forEach(post => {
-      if (post.data.tags) {
-        post.data.tags.forEach(tag => tags.add(tag));
-      }
-    });
-    return Array.from(tags).sort();
-  });
+  // Collections: sorted unique names per taxonomy. Throws if two distinct names share a slug
+  // (they would be written to the same output path and silently overwrite each other).
+  function taxonomyCollection(field) {
+    return function(collection) {
+      const bySlug = new Map();
+      collection.getFilteredByGlob("src/posts/**/index.md").forEach(post => {
+        (post.data[field] || []).forEach(name => {
+          const slug = slugify(name);
+          if (bySlug.has(slug) && bySlug.get(slug) !== name) {
+            throw new Error(`Slug collision in "${field}": "${bySlug.get(slug)}" and "${name}" both slugify to "${slug}"`);
+          }
+          bySlug.set(slug, name);
+        });
+      });
+      return Array.from(bySlug.values()).sort((a, b) => a.localeCompare(b, "es"));
+    };
+  }
+  eleventyConfig.addCollection("categories", taxonomyCollection("categories"));
+  eleventyConfig.addCollection("tags", taxonomyCollection("tags"));
 
   // Search index: plain-text entries serialized as JSON (output with `| safe`)
   eleventyConfig.addFilter("searchIndexJSON", function(posts) {
@@ -158,10 +161,7 @@ module.exports = function(eleventyConfig) {
   });
 
   // Filter: slugify text (for URLs)
-  eleventyConfig.addFilter("slugify", t => {
-    const r = String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-    return r || "x-" + Buffer.from(String(t)).toString("hex").slice(0, 8);
-  });
+  eleventyConfig.addFilter("slugify", slugify);
 
   // Filter: extract h2/h3 headings from rendered HTML (tolerates extra attributes, e.g. tabindex)
   eleventyConfig.addFilter("extractHeadings", function(content) {

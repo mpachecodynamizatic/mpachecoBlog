@@ -1,0 +1,24 @@
+---
+layout: layout.html
+pagination:
+  data: collections.tags
+  size: 1
+  alias: tag
+permalink: "/tags/{{ tag | slugify }}/index.html"
+eleventyComputed:
+  title: "Etiqueta: {{ tag }}"
+  description: "Artículos con la etiqueta {{ tag }}"
+---
+
+{% set postsWithTag = collections.posts | filterByTag(tag) %}
+<p class="mb-4"><a href="{{ "/tags/" | url }}" class="text-blue-600 dark:text-blue-400 hover:underline">← Todas las etiquetas</a></p>
+<h1 class="text-4xl font-bold mb-2">#{{ tag }}</h1>
+<p class="text-gray-600 dark:text-gray-400 mb-8">
+  {{ postsWithTag.length }} {{ "artículo" if postsWithTag.length == 1 else "artículos" }}
+</p>
+
+<div class="grid gap-6">
+  {% for post in postsWithTag %}
+    {% include "post-card.html" %}
+  {% endfor %}
+</div>

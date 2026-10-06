@@ -1,0 +1,22 @@
+---
+layout: layout.html
+title: Categorías
+description: Explora artículos por categoría
+permalink: /categories/index.html
+---
+
+<h1 class="text-4xl font-bold mb-8">Categorías</h1>
+
+{% if collections.categories.length %}
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+  {% for category in collections.categories %}
+    {% set n = (collections.posts | filterByCategory(category)).length %}
+    <a href="{{ ("/categories/" + (category | slugify) + "/") | url }}" class="border border-gray-200 dark:border-gray-800 rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <h2 class="font-bold text-gray-900 dark:text-white">{{ category }}</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-400">{{ n }} {{ "artículo" if n == 1 else "artículos" }}</p>
+    </a>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-gray-600 dark:text-gray-400">Aún no hay categorías.</p>
+{% endif %}

@@ -1,0 +1,24 @@
+---
+layout: layout.html
+pagination:
+  data: collections.categories
+  size: 1
+  alias: category
+permalink: "/categories/{{ category | slugify }}/index.html"
+eleventyComputed:
+  title: "Categoría: {{ category }}"
+  description: "Artículos de la categoría {{ category }}"
+---
+
+{% set postsInCategory = collections.posts | filterByCategory(category) %}
+<p class="mb-4"><a href="{{ "/categories/" | url }}" class="text-blue-600 dark:text-blue-400 hover:underline">← Todas las categorías</a></p>
+<h1 class="text-4xl font-bold mb-2">{{ category }}</h1>
+<p class="text-gray-600 dark:text-gray-400 mb-8">
+  {{ postsInCategory.length }} {{ "artículo" if postsInCategory.length == 1 else "artículos" }}
+</p>
+
+<div class="grid gap-6">
+  {% for post in postsInCategory %}
+    {% include "post-card.html" %}
+  {% endfor %}
+</div>
