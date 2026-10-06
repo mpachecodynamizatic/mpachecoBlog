@@ -16,7 +16,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' font-weight='bold' fill='%230f172a'>B</text></svg>">
 
   <title>{{ title or site.title }}</title>
-  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}</script>
+  <script>(function(){var t=null;try{t=localStorage.getItem("theme")}catch(e){}try{if(t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}})()</script>
   <link rel="stylesheet" href="{{ "/css/main.css" | url }}">
   <link rel="alternate" type="application/rss+xml" href="{{ "/feed.xml" | url }}" title="{{ site.title }}">
 
