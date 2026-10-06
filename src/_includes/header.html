@@ -1,21 +1,21 @@
 <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
   <nav class="container mx-auto px-4 py-4 max-w-4xl flex items-center justify-between">
     <div class="flex items-center space-x-2">
-      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-        <a href="/">Blog</a>
-      </h1>
+      <div class="text-2xl font-bold text-gray-900 dark:text-white">
+        <a href="{{ "/" | url }}">Blog</a>
+      </div>
     </div>
 
     <div class="flex items-center space-x-4">
       {% include "nav.html" %}
 
-      <a href="/search/" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" title="Buscar">
+      <a href="{{ "/search/" | url }}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" title="Buscar">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
       </a>
 
-      <button id="theme-toggle" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+      <button id="theme-toggle" type="button" aria-label="Cambiar tema" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
         <svg class="w-5 h-5 sun-icon" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zm4.293 1.293a1 1 0 011.414 0l1.414 1.414a1 1 0 11-1.414 1.414l-1.414-1.414a1 1 0 010-1.414zm2.828 4.293a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1zm-1.414 5.414l1.414 1.414a1 1 0 11-1.414 1.414l-1.414-1.414a1 1 0 111.414-1.414zM10 16a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1zm-4.293 1.293l-1.414 1.414a1 1 0 111.414 1.414l1.414-1.414a1 1 0 11-1.414-1.414zm0-4.586l-1.414-1.414a1 1 0 111.414-1.414l1.414 1.414a1 1 0 11-1.414 1.414zM4 10a1 1 0 011-1h2a1 1 0 110 2H5a1 1 0 01-1-1z" clip-rule="evenodd"></path>
         </svg>

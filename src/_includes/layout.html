@@ -16,8 +16,9 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' font-weight='bold' fill='%230f172a'>B</text></svg>">
 
   <title>{{ title or site.title }}</title>
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="alternate" type="application/rss+xml" href="/feed.xml" title="{{ site.title }}">
+  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}</script>
+  <link rel="stylesheet" href="{{ "/css/main.css" | url }}">
+  <link rel="alternate" type="application/rss+xml" href="{{ "/feed.xml" | url }}" title="{{ site.title }}">
 
   {% if analytics.enabled %}
   <!-- Google Analytics -->
@@ -39,6 +40,6 @@
 
   {% include "footer.html" %}
 
-  <script src="/js/theme-toggle.js" defer></script>
+  <script src="{{ "/js/theme-toggle.js" | url }}" defer></script>
 </body>
 </html>

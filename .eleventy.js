@@ -95,6 +95,8 @@ module.exports = function(eleventyConfig) {
   });
 
   return {
+    // GitHub Pages project site lives under /<repo>/ (see site.url). Use `| url` on internal links.
+    pathPrefix: "/blog-repo/",
     dir: {
       input: "src",
       output: "_site",
