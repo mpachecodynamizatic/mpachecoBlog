@@ -138,6 +138,12 @@ module.exports = function(eleventyConfig) {
     return headings;
   });
 
+  // Filter: first n items of an array (Nunjucks `slice` splits into groups instead)
+  eleventyConfig.addFilter("head", (array, n) => {
+    if (!Array.isArray(array)) return [];
+    return n < 0 ? array.slice(n) : array.slice(0, n);
+  });
+
   // Filter: find index of a page in a collection
   eleventyConfig.addFilter("findIndex", function(array, page) {
     return array.findIndex(item => item.inputPath === page.inputPath);

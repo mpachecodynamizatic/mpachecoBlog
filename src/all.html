@@ -1,0 +1,18 @@
+---
+layout: layout.html
+title: Todos los artículos
+description: Listado completo de artículos
+permalink: /all/
+---
+
+<h2 class="text-3xl font-bold mb-6">Todos los artículos</h2>
+
+{% if collections.posts.length %}
+<div class="grid gap-6">
+  {% for post in collections.posts %}
+    {% include "post-card.html" %}
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-gray-600 dark:text-gray-400">Aún no hay artículos.</p>
+{% endif %}

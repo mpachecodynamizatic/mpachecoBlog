@@ -1,0 +1,33 @@
+<article class="border border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow">
+  <h2 class="text-xl font-bold mb-2">
+    <a href="{{ post.url | url }}" class="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400">
+      {{ post.data.title }}
+    </a>
+  </h2>
+
+  <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+    <time datetime="{{ post.data.date | dateISO }}">
+      {{ post.data.date | readableDate }}
+    </time>
+  </p>
+
+  {% if post.data.description %}
+    <p class="text-gray-700 dark:text-gray-300 mb-4">
+      {{ post.data.description }}
+    </p>
+  {% endif %}
+
+  {% if post.data.categories and post.data.categories.length %}
+    <div class="flex flex-wrap gap-2 mb-4">
+      {% for category in post.data.categories %}
+        <a href="{{ ("/categories/" + (category | slugify) + "/") | url }}" class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100 px-2 py-1 rounded">
+          {{ category }}
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <a href="{{ post.url | url }}" class="text-blue-600 dark:text-blue-400 hover:underline">
+    Leer más →
+  </a>
+</article>
