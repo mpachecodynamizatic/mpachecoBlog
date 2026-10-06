@@ -6,10 +6,9 @@ const { DateTime } = require("luxon");
 
 module.exports = function(eleventyConfig) {
   // Watch CSS files
-  eleventyConfig.addWatchTarget("src/css/**/*.css");
+  eleventyConfig.addWatchTarget("src/styles/**/*.css");
 
-  // Copy CSS, JS, images to output
-  eleventyConfig.addPassthroughCopy("src/css");
+  // Copy JS, images to output (CSS is compiled by Tailwind from src/styles)
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/posts/**/images");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
