@@ -5,9 +5,9 @@ categories: ["Test"]
 tags: ["test"]
 ---
 
-# Test Heading
+## Test Heading
 
-## Section 1
+## Código `x < y` & Ñandú
 Some content here.
 
 ### Subsection 1.1

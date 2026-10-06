@@ -2,7 +2,8 @@
 layout: layout.html
 ---
 
-{% set hasHeadings = content.includes('<h2') or content.includes('<h3') %}
+{% set hasHeadings = (content | extractHeadings).length > 0 %}
+{% set postAuthor = author or site.author %}
 <article class="grid grid-cols-1 {% if hasHeadings %}md:grid-cols-3{% endif %} gap-8">
   {% if hasHeadings %}
   <!-- TOC Sidebar -->
@@ -21,8 +22,8 @@ layout: layout.html
           {{ date | readableDate }}
         </time>
 
-        {% if author %}
-          <span>por {{ author }}</span>
+        {% if postAuthor %}
+          <span>por {{ postAuthor }}</span>
         {% endif %}
       </div>
 

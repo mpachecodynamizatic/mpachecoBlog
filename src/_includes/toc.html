@@ -1,6 +1,6 @@
 <div class="sticky top-20 bg-gray-50 dark:bg-gray-800 rounded-lg p-4 text-sm">
   <h3 class="font-bold text-gray-900 dark:text-white mb-3">En este artículo</h3>
-  <nav class="space-y-1">
+  <nav class="space-y-1" aria-label="Tabla de contenidos">
     {% set headings = content | extractHeadings %}
     {% for heading in headings %}
       <a href="#{{ heading.id }}" class="block text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white {% if heading.level == 3 %}ml-4{% endif %}" data-toc-link>

@@ -4,6 +4,17 @@ const markdownTOC = require("markdown-it-table-of-contents");
 const markdownHighlight = require("markdown-it-highlightjs");
 const { DateTime } = require("luxon");
 
+function decodeEntities(str) {
+  const named = { lt: "<", gt: ">", amp: "&", quot: '"' };
+  return str.replace(/&(#x[0-9a-f]+|#[0-9]+|lt|gt|amp|quot);/gi, (m, e) => {
+    if (e[0] === "#") {
+      const cp = e[1].toLowerCase() === "x" ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+      try { return String.fromCodePoint(cp); } catch (err) { return m; }
+    }
+    return named[e.toLowerCase()];
+  });
+}
+
 module.exports = function(eleventyConfig) {
   // Watch CSS files
   eleventyConfig.addWatchTarget("src/styles/**/*.css");
@@ -36,6 +47,16 @@ module.exports = function(eleventyConfig) {
       auto: true,
       code: true
     });
+
+  // Demote body h1 to h2 (page title is the only h1). Runs before anchor so ids/permalinks are generated.
+  md.core.ruler.before("anchor", "demote_h1", state => {
+    state.tokens.forEach(t => {
+      if ((t.type === "heading_open" || t.type === "heading_close") && t.tag === "h1") {
+        t.tag = "h2";
+        if (t.markup) t.markup = "##";
+      }
+    });
+  });
 
   eleventyConfig.setLibrary("md", md);
 
@@ -95,14 +116,9 @@ module.exports = function(eleventyConfig) {
   });
 
   // Filter: slugify text (for URLs)
-  eleventyConfig.addFilter("slugify", function(text) {
-    return text
-      .toString()
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w\-]/g, '')
-      .replace(/\-+/g, '-');
+  eleventyConfig.addFilter("slugify", t => {
+    const r = String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return r || "x-" + Buffer.from(String(t)).toString("hex").slice(0, 8);
   });
 
   // Filter: extract h2/h3 headings from rendered HTML (tolerates extra attributes, e.g. tabindex)
@@ -115,7 +131,7 @@ module.exports = function(eleventyConfig) {
       headings.push({
         level: parseInt(match[1], 10),
         id: match[2],
-        text: match[3].replace(/<[^>]*>/g, '').trim()
+        text: decodeEntities(match[3].replace(/<[^>]*>/g, '')).trim()
       });
     }
 
