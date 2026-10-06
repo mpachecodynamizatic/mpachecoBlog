@@ -1,0 +1,85 @@
+---
+layout: layout.html
+---
+
+{% set hasHeadings = content.includes('<h2') or content.includes('<h3') %}
+<article class="grid grid-cols-1 {% if hasHeadings %}md:grid-cols-3{% endif %} gap-8">
+  {% if hasHeadings %}
+  <!-- TOC Sidebar -->
+  <aside class="md:col-span-1 order-last md:order-first">
+    {% include "toc.html" %}
+  </aside>
+  {% endif %}
+
+  <!-- Article Content -->
+  <div class="{% if hasHeadings %}md:col-span-2{% endif %}">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold mb-4">{{ title }}</h1>
+
+      <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+        <time datetime="{{ date | dateISO }}">
+          {{ date | readableDate }}
+        </time>
+
+        {% if author %}
+          <span>por {{ author }}</span>
+        {% endif %}
+      </div>
+
+      {% if categories %}
+        <div class="mt-4 flex flex-wrap gap-2">
+          {% for category in categories %}
+            <a href="{{ ('/categories/' + (category | slugify) + '/') | url }}" class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100 px-3 py-1 rounded-full text-xs font-semibold hover:bg-blue-200 dark:hover:bg-blue-800">
+              {{ category }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </header>
+
+    <!-- Main content -->
+    <div class="prose dark:prose-invert max-w-none">
+      {{ content | safe }}
+    </div>
+
+    <!-- Tags -->
+    {% if tags %}
+      <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
+        <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Tags:</p>
+        <div class="flex flex-wrap gap-2">
+          {% for tag in tags %}
+            <a href="{{ ('/tags/' + (tag | slugify) + '/') | url }}" class="text-xs bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600">
+              #{{ tag }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</article>
+
+<!-- Navigation -->
+{% if collections.posts %}
+  {% set postIndex = collections.posts | findIndex(page) %}
+  {% if postIndex > -1 %}
+    {% set hasNext = postIndex > 0 %}
+    {% set hasPrev = postIndex < collections.posts.length - 1 %}
+    {% if hasNext or hasPrev %}
+    <nav class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex justify-between">
+      {% if hasNext %}
+        {% set nextPost = collections.posts[postIndex - 1] %}
+        <a href="{{ nextPost.url | url }}" class="text-blue-600 dark:text-blue-400 hover:underline">
+          ← {{ nextPost.data.title }}
+        </a>
+      {% endif %}
+
+      {% if hasPrev %}
+        {% set prevPost = collections.posts[postIndex + 1] %}
+        <a href="{{ prevPost.url | url }}" class="text-blue-600 dark:text-blue-400 hover:underline ml-auto">
+          {{ prevPost.data.title }} →
+        </a>
+      {% endif %}
+    </nav>
+    {% endif %}
+  {% endif %}
+{% endif %}

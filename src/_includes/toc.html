@@ -1,0 +1,35 @@
+<div class="sticky top-20 bg-gray-50 dark:bg-gray-800 rounded-lg p-4 text-sm">
+  <h3 class="font-bold text-gray-900 dark:text-white mb-3">En este artículo</h3>
+  <nav class="space-y-1">
+    {% set headings = content | extractHeadings %}
+    {% for heading in headings %}
+      <a href="#{{ heading.id }}" class="block text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white {% if heading.level == 3 %}ml-4{% endif %}" data-toc-link>
+        {{ heading.text }}
+      </a>
+    {% endfor %}
+  </nav>
+</div>
+
+<script>
+  (function () {
+    var links = document.querySelectorAll('[data-toc-link]');
+    if (!links.length) return;
+    var headings = Array.from(links).map(function (link) {
+      return document.getElementById(link.getAttribute('href').slice(1));
+    });
+    var active = ['font-bold', 'text-gray-900', 'dark:text-white'];
+
+    function update() {
+      var current = links[0];
+      for (var i = 0; i < headings.length; i++) {
+        if (!headings[i]) continue;
+        if (window.scrollY >= headings[i].offsetTop - 100) current = links[i];
+      }
+      links.forEach(function (l) { active.forEach(function (c) { l.classList.remove(c); }); });
+      active.forEach(function (c) { current.classList.add(c); });
+    }
+
+    window.addEventListener('scroll', update);
+    update();
+  })();
+</script>

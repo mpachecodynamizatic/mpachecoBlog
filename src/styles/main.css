@@ -13,3 +13,7 @@
     ::-webkit-scrollbar-thumb { @apply bg-gray-300 dark:bg-gray-700 rounded-full; }
   }
 }
+
+/* Permalink anchors (markdown-it-anchor linkAfterHeader): siblings of h2/h3. Not in @layer so Tailwind does not purge (class only exists in generated HTML). */
+.header-anchor { @apply ml-2 text-gray-400 no-underline opacity-0 hover:opacity-100 focus:opacity-100; }
+h2:hover + .header-anchor, h3:hover + .header-anchor { opacity: 1; }

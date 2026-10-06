@@ -94,6 +94,39 @@ module.exports = function(eleventyConfig) {
     );
   });
 
+  // Filter: slugify text (for URLs)
+  eleventyConfig.addFilter("slugify", function(text) {
+    return text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]/g, '')
+      .replace(/\-+/g, '-');
+  });
+
+  // Filter: extract h2/h3 headings from rendered HTML (tolerates extra attributes, e.g. tabindex)
+  eleventyConfig.addFilter("extractHeadings", function(content) {
+    const headings = [];
+    const regex = /<h([2-3])\b[^>]*?\sid="([^"]*)"[^>]*>([\s\S]*?)<\/h\1>/g;
+    let match;
+
+    while ((match = regex.exec(content)) !== null) {
+      headings.push({
+        level: parseInt(match[1], 10),
+        id: match[2],
+        text: match[3].replace(/<[^>]*>/g, '').trim()
+      });
+    }
+
+    return headings;
+  });
+
+  // Filter: find index of a page in a collection
+  eleventyConfig.addFilter("findIndex", function(array, page) {
+    return array.findIndex(item => item.inputPath === page.inputPath);
+  });
+
   return {
     // GitHub Pages project site lives under /<repo>/ (see site.url). Use `| url` on internal links.
     pathPrefix: "/blog-repo/",
