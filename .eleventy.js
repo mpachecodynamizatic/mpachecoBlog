@@ -3,6 +3,8 @@ const markdownAnchor = require("markdown-it-anchor");
 const markdownTOC = require("markdown-it-table-of-contents");
 const markdownHighlight = require("markdown-it-highlightjs");
 const { DateTime } = require("luxon");
+const fs = require("fs");
+const path = require("path");
 
 function decodeEntities(str) {
   const named = { lt: "<", gt: ">", amp: "&", quot: '"' };
@@ -64,6 +66,35 @@ function slugify(t) {
 }
 
 module.exports = function(eleventyConfig) {
+  // Drafts and future-dated posts are excluded from every output in build mode.
+  // `eleventy --serve`/`--watch` (run mode "serve"/"watch") still previews them.
+  // A post dated today (UTC) is published: only dates after the end of today UTC are "future".
+  const excludedPostDirs = new Set();
+  eleventyConfig.on("eleventy.after", ({ dir }) => {
+    // Passthrough-copied images of excluded posts would leave orphan folders in the output
+    excludedPostDirs.forEach(rel => {
+      const out = path.join(dir.output, rel);
+      if (!fs.existsSync(path.join(out, "index.html"))) fs.rmSync(out, { recursive: true, force: true });
+    });
+    excludedPostDirs.clear();
+  });
+  eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
+    if (process.env.ELEVENTY_RUN_MODE !== "build") return;
+    const input = String((data.page && data.page.inputPath) || "").replace(/\\/g, "/");
+    if (!/(^|\/)src\/posts\//.test(input)) return;
+    const exclude = () => {
+      excludedPostDirs.add(path.posix.dirname(input).replace(/^(\.\/)?src\//, ""));
+      return false;
+    };
+    if (data.draft) return exclude();
+    const d = data.date instanceof Date ? data.date : new Date(data.date);
+    if (!isNaN(d)) {
+      const now = new Date();
+      const startOfTomorrowUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
+      if (d.getTime() >= startOfTomorrowUTC) return exclude();
+    }
+  });
+
   // Watch CSS files
   eleventyConfig.addWatchTarget("src/styles/**/*.css");
 

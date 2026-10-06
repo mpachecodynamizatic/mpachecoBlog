@@ -9,6 +9,10 @@
       "url": "/categories/"
     },
     {
+      "title": "Etiquetas",
+      "url": "/tags/"
+    },
+    {
       "title": "Buscar",
       "url": "/search/"
     }

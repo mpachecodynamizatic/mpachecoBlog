@@ -10,6 +10,7 @@ Blog estatico generado con 11ty 3, plantillas Nunjucks y Tailwind CSS v3, desple
 - Busqueda client-side con Lunr (offline, sin CDN: Lunr se sirve desde el propio sitio)
 - Feed RSS (`/feed.xml`)
 - Dark mode con preferencia persistente
+- Menu de navegacion movil automatico (desplegable sin JavaScript en pantallas pequenas)
 - Analytics opcional (Google Analytics, desactivado por defecto)
 - Despliegue automatico con GitHub Actions
 
@@ -83,6 +84,7 @@ EOF
 | `description` | no | Resumen para tarjetas, feed y busqueda (si falta se usa un extracto) |
 | `author` | no | Por defecto, el `author` de `src/_data/site.json` |
 | `updated` | no | Fecha de ultima actualizacion |
+| `draft` | no | `true` para marcar el articulo como borrador (no se publica) |
 
 ### Reglas
 
@@ -92,7 +94,8 @@ EOF
 - No uses como tag los nombres `posts`, `categories`, `tags` ni `all` (chocan con colecciones y rutas del sitio).
 - Dos categorias o tags que generen el mismo slug (por ejemplo "C#" y "C++" dan `c`) hacen fallar el build a proposito, para evitar que una pagina sobrescriba a la otra.
 - Los lenguajes de bloques de codigo que highlight.js no conoce (por ejemplo `dax`) se renderizan sin resaltado y el build muestra un aviso.
-- `.eleventyignore` excluye `*.draft.md`, pero los articulos siempre son `index.md`, asi que los borradores como archivos aparte no son un flujo soportado. No hay filtro de borradores ni de fechas futuras.
+- Borradores y fechas futuras: con `npm run build` (y en el despliegue) se excluyen por completo los articulos con `draft: true` y los que tienen `date` posterior a hoy (se compara en UTC por dia, asi que un articulo con la fecha de hoy se publica). No aparecen en portada, `/all/`, categorias, tags, busqueda, feed ni tienen pagina propia; las categorias o tags usados solo por ellos tampoco generan pagina. Con `npm run dev` (servidor local) si se previsualizan, para poder revisarlos antes de publicar. Nota: el primer `eleventy` que lanza `npm run dev` es un build normal, pero el servidor lo regenera con borradores incluidos.
+- `.eleventyignore` excluye `*.draft.md`; los articulos siempre son `index.md`, asi que para borradores usa `draft: true` en el front matter.
 
 ## Estructura
 

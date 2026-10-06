@@ -25,4 +25,20 @@
       </button>
     </div>
   </nav>
+
+  <details class="md:hidden border-t border-gray-200 dark:border-gray-800">
+    <summary aria-label="Abrir menu" class="list-none cursor-pointer select-none px-4 py-2 max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 [&::-webkit-details-marker]:hidden">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <span>Menu</span>
+    </summary>
+    <ul class="container mx-auto px-4 pb-3 max-w-4xl">
+      {% for item in navigation.mainNav %}
+      <li>
+        <a href="{{ item.url | url }}" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">{{ item.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </details>
 </header>
