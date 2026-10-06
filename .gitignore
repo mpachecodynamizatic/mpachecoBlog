@@ -1,1 +1,9 @@
-.superpowers/
+node_modules/
+_site/
+.DS_Store
+*.log
+.env
+.env.local
+dist/
+build/
+.cache/
