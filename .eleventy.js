@@ -15,6 +15,25 @@ function decodeEntities(str) {
   });
 }
 
+// Convert markdown/HTML source into plain text for the search index
+function toPlainText(src) {
+  return decodeEntities(String(src || "")
+    .replace(/\r\n?/g, "\n")
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/^[ \t]*(```|~~~)[^\n]*\n[\s\S]*?\n[ \t]*\1[^\n]*$/gm, " ") // fenced code blocks
+    .replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, " ")
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1") // images
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // links
+    .replace(/<[^>]+>/g, " ") // html tags
+    .replace(/^\s{0,3}#{1,6}\s+/gm, "") // headings
+    .replace(/^\s{0,3}>\s?/gm, "") // blockquotes
+    .replace(/^\s*([-*+]|\d+\.)\s+/gm, "") // list markers
+    .replace(/^\s*([-*_]\s*){3,}$/gm, " ") // horizontal rules
+    .replace(/\[\[toc\]\]/gi, " ")
+    .replace(/[`*_~]+/g, "") // inline code/emphasis markers
+    .replace(/\s+/g, " ")).trim();
+}
+
 module.exports = function(eleventyConfig) {
   // Watch CSS files
   eleventyConfig.addWatchTarget("src/styles/**/*.css");
@@ -23,6 +42,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/posts/**/images");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
+  // Lunr is served locally (no CDN); only the search page loads it
+  eleventyConfig.addPassthroughCopy({ "node_modules/lunr/lunr.min.js": "js/lunr.min.js" });
 
   // Configure Markdown with plugins
   const md = markdown({
@@ -99,6 +120,27 @@ module.exports = function(eleventyConfig) {
       }
     });
     return Array.from(tags).sort();
+  });
+
+  // Search index: plain-text entries serialized as JSON (output with `| safe`)
+  eleventyConfig.addFilter("searchIndexJSON", function(posts) {
+    const urlFilter = eleventyConfig.getFilter("url");
+    const entries = (posts || []).map(post => {
+      const content = toPlainText(post.rawInput);
+      const desc = post.data.description ? String(post.data.description).trim() : "";
+      const d = post.data.date;
+      return {
+        title: String(post.data.title || ""),
+        url: urlFilter(post.url),
+        excerpt: desc || (content.length > 200 ? content.slice(0, 200).replace(/\s+\S*$/, "") + "…" : content),
+        content,
+        categories: post.data.categories || [],
+        tags: post.data.tags || [],
+        date: d instanceof Date ? d.toISOString() : String(d || "")
+      };
+    });
+    // Escape "<" so sequences like </script> can never break out if the JSON is inlined
+    return JSON.stringify(entries).replace(/</g, "\\u003c");
   });
 
   // Filter: get posts by category

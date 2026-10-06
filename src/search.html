@@ -1,0 +1,29 @@
+---
+layout: layout.html
+title: Buscar
+description: Busca en todos los artículos del blog
+permalink: /search/
+---
+
+<h1 class="text-4xl font-bold mb-8">Buscar Artículos</h1>
+
+<div id="search-app" data-index="{{ '/search-index.json' | url }}">
+  <div class="mb-6">
+    <label for="search-input" class="sr-only">Buscar artículos</label>
+    <input
+      type="search"
+      id="search-input"
+      aria-label="Buscar artículos"
+      autocomplete="off"
+      placeholder="Busca por palabra clave..."
+      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+  </div>
+
+  <div id="search-results" class="space-y-6" aria-live="polite">
+    <p class="text-gray-600 dark:text-gray-400">Escribe algo para buscar...</p>
+  </div>
+</div>
+
+<script src="{{ '/js/lunr.min.js' | url }}" defer></script>
+<script src="{{ '/js/search.js' | url }}" defer></script>
