@@ -1,0 +1,16 @@
+{
+  "mainNav": [
+    {
+      "title": "Home",
+      "url": "/"
+    },
+    {
+      "title": "Categorías",
+      "url": "/categories/"
+    },
+    {
+      "title": "Buscar",
+      "url": "/search/"
+    }
+  ]
+}

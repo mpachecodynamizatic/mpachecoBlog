@@ -1,0 +1,14 @@
+{
+  "title": "Tech Blog - Business Central & Power BI",
+  "description": "Artículos sobre Business Central y Power BI",
+  "author": "Your Name",
+  "email": "your@email.com",
+  "url": "https://usuario.github.io/blog-repo/",
+  "language": "es",
+  "postsPerPage": 10,
+  "recentPostsCount": 5,
+  "socialLinks": {
+    "github": "https://github.com/usuario",
+    "linkedin": "https://linkedin.com/in/usuario"
+  }
+}
