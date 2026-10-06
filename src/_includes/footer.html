@@ -1,0 +1,25 @@
+<footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-12">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="flex flex-col md:flex-row justify-between items-center space-y-4">
+      <div class="text-sm text-gray-600 dark:text-gray-400">
+        <p>&copy; 2026 {{ site.author }}. Todos los derechos reservados.</p>
+      </div>
+
+      <div class="flex space-x-4">
+        {% if site.socialLinks.github %}
+          <a href="{{ site.socialLinks.github }}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            GitHub
+          </a>
+        {% endif %}
+        {% if site.socialLinks.linkedin %}
+          <a href="{{ site.socialLinks.linkedin }}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            LinkedIn
+          </a>
+        {% endif %}
+        <a href="/feed.xml" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+          RSS
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
