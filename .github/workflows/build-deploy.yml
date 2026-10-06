@@ -1,0 +1,78 @@
+# Build and deploy the blog to GitHub Pages.
+#
+# ONE-TIME MANUAL SETUP (cannot be automated):
+#   Repository Settings > Pages > Build and deployment > Source: "GitHub Actions"
+#   (NOT "Deploy from a branch"; this workflow uses the artifact flow
+#   upload-pages-artifact + deploy-pages, so no gh-pages branch is ever created.)
+#   The repository must be public (or on a plan that supports private Pages).
+#
+# Pull requests only run the build job (validation); deploy runs on push to main.
+
+name: Build and Deploy
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          for f in index.html feed.xml search-index.json css/main.css; do
+            test -s "_site/$f" || { echo "::error::Missing or empty _site/$f"; exit 1; }
+          done
+          if grep -q '@tailwind' _site/css/main.css; then
+            echo "::error::_site/css/main.css contains uncompiled @tailwind directives"
+            exit 1
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
