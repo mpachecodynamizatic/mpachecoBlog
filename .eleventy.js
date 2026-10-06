@@ -71,10 +71,10 @@ module.exports = function(eleventyConfig) {
   // A post dated today (UTC) is published: only dates after the end of today UTC are "future".
   const excludedPostDirs = new Set();
   eleventyConfig.on("eleventy.after", ({ dir }) => {
-    // Passthrough-copied images of excluded posts would leave orphan folders in the output
+    // Passthrough-copied images of excluded posts would stay orphaned in the output.
+    // Remove ONLY the images folder: never the whole post directory, which may hold other legitimate pages.
     excludedPostDirs.forEach(rel => {
-      const out = path.join(dir.output, rel);
-      if (!fs.existsSync(path.join(out, "index.html"))) fs.rmSync(out, { recursive: true, force: true });
+      fs.rmSync(path.join(dir.output, rel, "images"), { recursive: true, force: true });
     });
     excludedPostDirs.clear();
   });
