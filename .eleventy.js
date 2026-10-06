@@ -34,6 +34,30 @@ function toPlainText(src) {
     .replace(/\s+/g, " ")).trim();
 }
 
+const siteData = require("./src/_data/site.json");
+
+// Site base URL guaranteed to end with "/" (it includes the GitHub Pages subpath, e.g. /blog-repo/)
+const SITE_BASE = siteData.url.replace(/\/*$/, "/");
+
+// Resolve a site-relative path (as in post.url, no pathPrefix) to an absolute URL under SITE_BASE
+function absoluteUrl(path) {
+  return new URL(String(path || "").replace(/^\//, ""), SITE_BASE).href;
+}
+
+// Make URLs inside rendered post HTML absolute (feed readers have no <base>).
+// Relative URLs resolve against the post URL; root-relative ("/x") against the site base.
+// Skips absolute/protocol-relative URLs, mailto:, data:, #fragments, etc.
+function absolutizeHtml(html, postUrl) {
+  const postAbs = absoluteUrl(postUrl);
+  return String(html || "").replace(/(\s(?:src|href)=)(["'])(.*?)\2/gi, (m, attr, q, val) => {
+    const v = decodeEntities(val).trim();
+    if (!v || v.startsWith("#") || v.startsWith("//") || /^[a-z][a-z0-9+.-]*:/i.test(v)) return m;
+    let abs;
+    try { abs = v.startsWith("/") ? absoluteUrl(v) : new URL(v, postAbs).href; } catch (e) { return m; }
+    return attr + q + abs.replace(/&/g, "&amp;").replace(/"/g, "&quot;") + q;
+  });
+}
+
 function slugify(t) {
   const r = String(t).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   return r || "x-" + Buffer.from(String(t)).toString("hex").slice(0, 8);
@@ -144,6 +168,27 @@ module.exports = function(eleventyConfig) {
     });
     // Escape "<" so sequences like </script> can never break out if the JSON is inlined
     return JSON.stringify(entries).replace(/</g, "\\u003c");
+  });
+
+  // Feed: RFC 2822 date (UTC) for <pubDate>/<lastBuildDate>
+  eleventyConfig.addFilter("dateRSS", (dateObj) => {
+    return DateTime.fromJSDate(new Date(dateObj), { zone: "UTC" }).toRFC2822();
+  });
+
+  // Feed: absolute URL for a site-relative path (post.url has no pathPrefix)
+  eleventyConfig.addFilter("absoluteUrl", absoluteUrl);
+
+  // Feed: post HTML with relative URLs made absolute and "]]>" split so it is safe inside CDATA
+  eleventyConfig.addFilter("feedContent", (html, postUrl) => {
+    return absolutizeHtml(html, postUrl).replace(/\]\]>/g, "]]]]><![CDATA[>");
+  });
+
+  // Feed: <description> = front matter description, else ~200-char plain-text excerpt
+  eleventyConfig.addFilter("feedDescription", (post) => {
+    const desc = post.data.description ? String(post.data.description).trim() : "";
+    if (desc) return desc;
+    const text = toPlainText(post.rawInput);
+    return text.length > 200 ? text.slice(0, 200).replace(/\s+\S*$/, "") + "…" : text;
   });
 
   // Filter: get posts by category
