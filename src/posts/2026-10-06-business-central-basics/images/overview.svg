@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 160" role="img" aria-label="Esquema de Business Central">
+  <rect width="480" height="160" fill="#f8fafc"/>
+  <rect x="20" y="50" width="120" height="60" rx="8" fill="#0f172a"/>
+  <text x="80" y="86" font-family="sans-serif" font-size="14" fill="#fff" text-anchor="middle">Finanzas</text>
+  <rect x="180" y="50" width="120" height="60" rx="8" fill="#334155"/>
+  <text x="240" y="86" font-family="sans-serif" font-size="14" fill="#fff" text-anchor="middle">Inventario</text>
+  <rect x="340" y="50" width="120" height="60" rx="8" fill="#64748b"/>
+  <text x="400" y="86" font-family="sans-serif" font-size="14" fill="#fff" text-anchor="middle">Informes</text>
+  <path d="M140 80h40M300 80h40" stroke="#0f172a" stroke-width="2"/>
+</svg>

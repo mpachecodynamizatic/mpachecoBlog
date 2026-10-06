@@ -81,6 +81,7 @@ module.exports = function(eleventyConfig) {
     typographer: true
   })
     .use(markdownAnchor, {
+      slugify,
       level: 2,
       permalink: markdownAnchor.permalink.linkAfterHeader({
         style: "aria-label",
@@ -107,6 +108,10 @@ module.exports = function(eleventyConfig) {
       }
     });
   });
+
+  // Wrap tables so wide ones scroll horizontally on small screens
+  md.renderer.rules.table_open = () => '<div class="overflow-x-auto"><table>\n';
+  md.renderer.rules.table_close = () => "</table></div>\n";
 
   eleventyConfig.setLibrary("md", md);
 
