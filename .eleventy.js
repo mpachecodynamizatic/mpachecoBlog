@@ -31,7 +31,7 @@ module.exports = function(eleventyConfig) {
     })
     .use(markdownTOC, {
       "includeLevel": [2, 3],
-      "markerPattern": "^\\[\\[toc\\]\\]"
+      "markerPattern": /^\[\[toc\]\]/im
     })
     .use(markdownHighlight, {
       auto: true,
