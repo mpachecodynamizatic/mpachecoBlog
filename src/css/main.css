@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .prose-code { @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded font-mono text-sm; }
+}
+
+@layer utilities {
+  @supports (scrollbar-color: red blue) {
+    ::-webkit-scrollbar { width: 12px; }
+    ::-webkit-scrollbar-track { @apply bg-white dark:bg-gray-900; }
+    ::-webkit-scrollbar-thumb { @apply bg-gray-300 dark:bg-gray-700 rounded-full; }
+  }
+}
