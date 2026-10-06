@@ -4,7 +4,7 @@
   "description": "Tech blog for Business Central and Power BI",
   "main": "index.js",
   "scripts": {
-    "build": "eleventy && tailwindcss -i src/styles/main.css -o _site/css/main.css --minify",
+    "build": "npm run clean && eleventy && tailwindcss -i src/styles/main.css -o _site/css/main.css --minify",
     "dev": "eleventy && npm-run-all --parallel dev:css dev:11ty",
     "dev:css": "tailwindcss -i src/styles/main.css -o _site/css/main.css --watch",
     "dev:11ty": "eleventy --serve --incremental",
