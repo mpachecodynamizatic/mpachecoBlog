@@ -8,8 +8,8 @@ if not exist node_modules (
   if errorlevel 1 exit /b 1
 )
 
-echo Abriendo http://localhost:8080/blog-repo/ en unos segundos...
-start "" cmd /c "timeout /t 6 /nobreak >nul & start http://localhost:8080/blog-repo/"
+echo Abriendo http://localhost:8080/mpachecoBlog/ en unos segundos...
+start "" cmd /c "timeout /t 6 /nobreak >nul & start http://localhost:8080/mpachecoBlog/"
 
 call npm run dev
 endlocal

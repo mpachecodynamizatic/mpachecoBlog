@@ -3,12 +3,12 @@
   "description": "Artículos sobre Business Central y Power BI",
   "author": "Your Name",
   "email": "your@email.com",
-  "url": "https://usuario.github.io/blog-repo/",
+  "url": "https://mpachecodynamizatic.github.io/mpachecoBlog/",
   "language": "es",
   "postsPerPage": 10,
   "recentPostsCount": 5,
   "socialLinks": {
-    "github": "https://github.com/usuario",
+    "github": "https://github.com/mpachecodynamizatic",
     "linkedin": "https://linkedin.com/in/usuario"
   }
 }

@@ -20,14 +20,14 @@ Requisitos: Node.js >= 18 (el CI usa Node 20).
 
 ```bash
 git clone <repo-url>
-cd blog-repo
+cd mpachecoBlog
 npm install
 npm run dev     # desarrollo con live reload
 npm run build   # build de produccion en _site/ (limpia _site/ antes)
 npm run clean   # elimina _site/
 ```
 
-Con `npm run dev` el sitio se sirve en **http://localhost:8080/blog-repo/** (no en la raiz), porque el sitio usa `pathPrefix` `/blog-repo/`. Si el puerto 8080 esta ocupado, 11ty elige el siguiente libre (por ejemplo 8081); la URL exacta aparece en la consola.
+Con `npm run dev` el sitio se sirve en **http://localhost:8080/mpachecoBlog/** (no en la raiz), porque el sitio usa `pathPrefix` `/mpachecoBlog/`. Si el puerto 8080 esta ocupado, 11ty elige el siguiente libre (por ejemplo 8081); la URL exacta aparece en la consola.
 
 ## Crear un nuevo articulo
 
@@ -140,7 +140,7 @@ El workflow `.github/workflows/build-deploy.yml` usa el flujo de artefactos de G
 
 Es un sitio de proyecto, publicado en `https://<usuario>.github.io/<repo>/`. Por eso:
 
-- `pathPrefix` en `.eleventy.js` (`/blog-repo/`) y `url` en `src/_data/site.json` deben coincidir con el nombre del repositorio.
+- `pathPrefix` en `.eleventy.js` (`/mpachecoBlog/`) y `url` en `src/_data/site.json` deben coincidir con el nombre del repositorio.
 - Para un sitio de usuario (`<usuario>.github.io`) o un dominio propio, usa `pathPrefix: "/"` y ajusta `url` (por ejemplo `https://midominio.com/`).
 - Todos los enlaces internos deben usar el filtro `| url` (por ejemplo `{{ "/search/" | url }}`) para respetar el prefijo.
 

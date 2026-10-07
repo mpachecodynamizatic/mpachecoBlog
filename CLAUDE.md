@@ -9,7 +9,7 @@ Static tech blog (Business Central / Power BI, content in Spanish) built with El
 ## Commands
 
 - `run.bat` (Windows) installs deps if missing, runs `npm run dev` and opens the browser.
-- `npm run dev` — Eleventy `--serve --incremental` plus Tailwind `--watch` in parallel. Served at **http://localhost:8080/blog-repo/** (not the root, because of `pathPrefix`).
+- `npm run dev` — Eleventy `--serve --incremental` plus Tailwind `--watch` in parallel. Served at **http://localhost:8080/mpachecoBlog/** (not the root, because of `pathPrefix`).
 - `npm run build` — cleans `_site/`, runs Eleventy, then compiles Tailwind. Order matters: Tailwind must run **after** Eleventy.
 - `npm run clean` — removes `_site/` (Node-based, Windows-safe; do not use `rm -rf` in scripts).
 
@@ -26,7 +26,7 @@ Static tech blog (Business Central / Power BI, content in Spanish) built with El
 
 ## Gotchas
 
-- `pathPrefix: "/blog-repo/"` (in `.eleventy.js`) and `url` in `src/_data/site.json` must match the GitHub repo name. **Every internal link in templates must use the `| url` filter** or it breaks on Pages.
+- `pathPrefix: "/mpachecoBlog/"` (in `.eleventy.js`) and `url` in `src/_data/site.json` must match the GitHub repo name. **Every internal link in templates must use the `| url` filter** or it breaks on Pages.
 - CI (`.github/workflows/build-deploy.yml`) triggers on `main` only (the local branch is `master`) and uses the Pages artifact flow; Pages Source must be set to "GitHub Actions".
 - Unknown highlight languages (e.g. `dax`) render unhighlighted and print a build warning; this is expected.
 - The ignore file must be named `.eleventyignore` (11ty ignores `.eleventy.ignore`).

@@ -15,7 +15,7 @@ Registro versionado de contexto y decisiones del proyecto. Actualízalo cuando c
 - Funciones incluidas: índice de contenidos, búsqueda, categorías y tags, RSS, dark mode, analytics opcional (desactivado). Sin comentarios por ahora.
 - Búsqueda con Lunr servido en local (sin CDN).
 - Despliegue con el flujo de artefactos de Pages (no rama `gh-pages`).
-- `pathPrefix: "/blog-repo/"` como nombre provisional del repositorio.
+- `pathPrefix: "/mpachecoBlog/"` como nombre provisional del repositorio.
 
 ## Desviaciones del plan original (ya aplicadas)
 

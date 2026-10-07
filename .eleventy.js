@@ -38,7 +38,7 @@ function toPlainText(src) {
 
 const siteData = require("./src/_data/site.json");
 
-// Site base URL guaranteed to end with "/" (it includes the GitHub Pages subpath, e.g. /blog-repo/)
+// Site base URL guaranteed to end with "/" (it includes the GitHub Pages subpath, e.g. /mpachecoBlog/)
 const SITE_BASE = siteData.url.replace(/\/*$/, "/");
 
 // Resolve a site-relative path (as in post.url, no pathPrefix) to an absolute URL under SITE_BASE
@@ -274,7 +274,7 @@ module.exports = function(eleventyConfig) {
 
   return {
     // GitHub Pages project site lives under /<repo>/ (see site.url). Use `| url` on internal links.
-    pathPrefix: "/blog-repo/",
+    pathPrefix: "/mpachecoBlog/",
     dir: {
       input: "src",
       output: "_site",

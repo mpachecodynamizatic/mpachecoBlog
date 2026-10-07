@@ -9,7 +9,7 @@ Blog estático sobre Business Central y Power BI: Eleventy 3 + Nunjucks + Tailwi
 ### Comandos
 
 - `run.bat` (Windows): instala dependencias si faltan, lanza `npm run dev` y abre el navegador.
-- `npm run dev`: servidor con recarga en http://localhost:8080/blog-repo/ (no en la raíz).
+- `npm run dev`: servidor con recarga en http://localhost:8080/mpachecoBlog/ (no en la raíz).
 - `npm run build`: limpia `_site/`, ejecuta Eleventy y después Tailwind (el orden importa).
 - `npm run clean`: borra `_site/`.
 - No hay tests ni linter: se verifica con `npm run build` sin errores y revisión manual.
