@@ -1,6 +1,6 @@
 <nav class="hidden md:flex space-x-6">
   {% for item in navigation.mainNav %}
-    <a href="{{ item.url | url }}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+    <a href="{{ item.url | url }}" class="nav-link text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
       {{ item.title }}
     </a>
   {% endfor %}

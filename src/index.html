@@ -3,9 +3,9 @@ layout: layout.html
 description: Blog de artículos sobre Business Central y Power BI
 ---
 
-<section class="mb-12">
-  <h1 class="text-3xl font-bold mb-2">Bienvenido</h1>
-  <p class="text-gray-700 dark:text-gray-300 text-lg">
+<section class="mb-14 rounded-3xl bg-gradient-to-br from-blue-600 to-indigo-700 px-8 py-14 text-white shadow-lg md:px-14">
+  <h1 class="mb-3 text-4xl font-extrabold tracking-tight md:text-5xl">Business Central y Power BI</h1>
+  <p class="max-w-2xl text-lg text-blue-100">
     Blog de artículos técnicos sobre Business Central y Power BI. Actualizamos con nuevos contenidos regularmente.
   </p>
 </section>
@@ -14,7 +14,7 @@ description: Blog de artículos sobre Business Central y Power BI
   <h2 class="text-2xl font-bold mb-6">Artículos Recientes</h2>
 
   {% if collections.posts.length %}
-  <div class="grid gap-6">
+  <div class="grid gap-8 md:grid-cols-2">
     {% for post in collections.posts | head(site.recentPostsCount) %}
       {% include "post-card.html" %}
     {% endfor %}

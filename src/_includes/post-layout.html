@@ -4,18 +4,23 @@ layout: layout.html
 
 {% set hasHeadings = (content | extractHeadings).length > 0 %}
 {% set postAuthor = author or site.author %}
-<article class="grid grid-cols-1 {% if hasHeadings %}md:grid-cols-3{% endif %} gap-8">
+{% set coverIdx = collections.posts | findIndex(page) %}
+{% set coverImage = collections.posts[coverIdx].data.image if coverIdx > -1 else '' %}
+<article class="grid grid-cols-1 {% if hasHeadings %}post-grid-toc{% endif %} gap-10">
   {% if hasHeadings %}
   <!-- TOC Sidebar -->
-  <aside class="md:col-span-1 order-last md:order-first">
+  <aside class="order-last lg:order-first">
     {% include "toc.html" %}
   </aside>
   {% endif %}
 
   <!-- Article Content -->
-  <div class="{% if hasHeadings %}md:col-span-2{% endif %}">
+  <div class="min-w-0">
+    {% if coverImage %}
+    <img src="{{ (page.url + (coverImage | replace('./', '', 1))) | url }}" alt="" class="mb-8 aspect-[16/9] max-h-96 w-full rounded-3xl object-cover shadow-lg">
+    {% endif %}
     <header class="mb-8">
-      <h1 class="text-4xl font-bold mb-4">{{ title }}</h1>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{{ title }}</h1>
 
       <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
         <time datetime="{{ date | dateISO }}">

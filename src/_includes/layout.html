@@ -31,10 +31,10 @@
   </script>
   {% endif %}
 </head>
-<body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors">
+<body class="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors antialiased">
   {% include "header.html" %}
 
-  <main class="container mx-auto px-4 py-8 max-w-4xl">
+  <main class="wrap py-10">
     {{ content | safe }}
   </main>
 

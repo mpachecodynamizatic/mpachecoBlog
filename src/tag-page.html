@@ -17,7 +17,7 @@ eleventyComputed:
   {{ postsWithTag.length }} {{ "artículo" if postsWithTag.length == 1 else "artículos" }}
 </p>
 
-<div class="grid gap-6">
+<div class="grid gap-8 md:grid-cols-2">
   {% for post in postsWithTag %}
     {% include "post-card.html" %}
   {% endfor %}

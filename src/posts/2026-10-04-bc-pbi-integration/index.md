@@ -4,6 +4,7 @@ date: 2026-10-04
 author: "Tu Nombre"
 categories: ["Business Central", "Power BI"]
 tags: ["bc", "pbi", "integration", "data"]
+image: ./images/portada.svg
 description: "Conecta Business Central con Power BI para análisis avanzados de datos."
 ---
 

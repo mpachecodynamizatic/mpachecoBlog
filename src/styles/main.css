@@ -19,6 +19,19 @@
 .header-anchor { @apply ml-2 text-gray-400 no-underline opacity-0 hover:opacity-100 focus:opacity-100; }
 h2:hover + .header-anchor, h3:hover + .header-anchor { opacity: 1; }
 
+/* Shared page width: full width with gutters on small screens, 75% of the viewport from lg up. */
+.wrap { width: 100%; margin-inline: auto; padding-inline: 1rem; }
+@media (min-width: 1024px) { .wrap { width: 75%; padding-inline: 0; } }
+
+.post-grid-toc { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) { .post-grid-toc { grid-template-columns: 16rem minmax(0, 1fr); } }
+
+body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+
+/* Animated underline for text links in the nav. */
+.nav-link { background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat; transition: background-size .2s ease, color .2s ease; padding-bottom: 2px; }
+.nav-link:hover, .nav-link:focus-visible { background-size: 100% 2px; }
+
 /* Theme toggle icons follow the `dark` class on <html> at first paint (no flash, no JS). */
 .moon-icon { display: none; }
 .dark .sun-icon { display: none; }

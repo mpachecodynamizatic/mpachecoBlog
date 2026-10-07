@@ -4,6 +4,7 @@ date: 2026-10-05
 author: "Tu Nombre"
 categories: ["Power BI"]
 tags: ["pbi", "dashboards", "visualization"]
+image: ./images/portada.svg
 description: "Tutorial paso a paso para crear dashboards efectivos en Power BI."
 ---
 

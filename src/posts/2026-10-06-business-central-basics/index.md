@@ -4,6 +4,7 @@ date: 2026-10-06
 author: "Tu Nombre"
 categories: ["Business Central"]
 tags: ["bc", "basics", "tutorial"]
+image: ./images/portada.svg
 description: "Guía básica para comenzar con Microsoft Dynamics 365 Business Central."
 ---
 
